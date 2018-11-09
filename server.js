@@ -1,10 +1,7 @@
+// Require npm packages
 var express = require("express");
 var logger = require("morgan");
 var mongoose = require("mongoose");
-
-// Our scraping tools
-// Axios is a promised-based http library, similar to jQuery's Ajax method
-// It works on the client and on the server
 var axios = require("axios");
 var cheerio = require("cheerio");
 
@@ -20,25 +17,27 @@ var app = express();
 
 // Use morgan logger for logging requests
 app.use(logger("dev"));
+
 // Parse request body as JSON
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
+
 // Make public a static folder
 app.use(express.static("public"));
 
 // Connect to the Mongo DB
 mongoose.connect("mongodb://localhost/mongo_scraper", { useNewUrlParser: true });
 
-// Routes
+// --- Routes ---
 
-// A GET route for scraping the echoJS website
+// A GET route for scraping the CNBC website
 app.get("/scrape", function(req, res) {
   // First, we grab the body of the html with axios
   axios.get("https://www.cnbc.com/").then(function(response) {
     // Then, we load that into cheerio and save it to $ for a shorthand selector
     var $ = cheerio.load(response.data);
 
-    // Now, we grab every h2 within an article tag, and do the following:
+    // Grab every a tag within a div.headline
     $("div.headline a").each(function(i, element) {
       // Save an empty result object
       var result = {};
