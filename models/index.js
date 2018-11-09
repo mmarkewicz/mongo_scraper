@@ -1,5 +1,6 @@
-// Index exports all models for use in server.js
+// Exporting an object containing all of our models
+
 module.exports = {
   Article: require("./Article"),
   Note: require("./Note")
-}
+};
