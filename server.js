@@ -28,8 +28,6 @@ app.use(express.static("public"));
 // Connect to the Mongo DB
 mongoose.connect("mongodb://localhost/mongo_scraper", { useNewUrlParser: true });
 
-// --- Routes ---
-
 // A GET route for scraping the CNBC website
 app.get("/scrape", function(req, res) {
   // First, we grab the body of the html with axios
